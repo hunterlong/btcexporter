@@ -1,5 +1,5 @@
 # BTCexporter
-A lightweight server to record Bitcoin wallet balances for your Prometheus database. BTCexporter uses blockchain.info to fetch bitcoin balances.
+A lightweight server to record Bitcoin wallet balances for your Prometheus database. BTCexporter uses blockchain.info to fetch bitcoin balances. If you also wanting a Ethereum prometheus exporter, you can use [ETHexporter](https://github.com/hunterlong/btcexporter) which uses a geth server.
 
 ## Watch Addresses
 The `addresses.txt` file holds all the addresses to fetch balances for. Use the format `name:address` on each new line. BTCexporter updates balances every 60 seconds since the bitcoin blockchain doesn't update very quickly.

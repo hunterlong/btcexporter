@@ -30,7 +30,8 @@ func GetBTCBalance(address string) *big.Float {
 	url := fmt.Sprintf("https://blockchain.info/q/addressbalance/%v", address)
 	response, err := http.Get(url)
 	if err != nil {
-		return big.NewFloat(0)
+		time.Sleep(15 * time.Second)
+		return GetBTCBalance(address)
 	} else {
 		defer response.Body.Close()
 		contents, err := ioutil.ReadAll(response.Body)
