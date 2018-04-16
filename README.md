@@ -1,5 +1,5 @@
 # BTCexporter
-A lightweight Prometheus exporter that will output Bitcoin Balances for a list of addresses you specify. BTCexporter uses blockchain.info to fetch bitcoin balances. If you also wanting a Ethereum prometheus exporter, you can use [ETHexporter](https://github.com/hunterlong/btcexporter) which uses a geth server. You might also want to chart your ERC20 token balances for the Ethereum blockchain, checkout out [TOKENexporter](https://github.com/hunterlong/tokenexporter).
+A lightweight Prometheus exporter that will output Bitcoin Balances from a list of addresses you specify. BTCexporter uses blockchain.info to fetch bitcoin balances. If you also wanting a Ethereum prometheus exporter, you can use [ETHexporter](https://github.com/hunterlong/btcexporter) which uses a geth server. You might also want to chart your ERC20 token balances for the Ethereum blockchain, checkout out [TOKENexporter](https://github.com/hunterlong/tokenexporter).
 
 ## Watch Addresses
 The `addresses.txt` file holds all the addresses to fetch balances for. Use the format `name:address` on each new line. BTCexporter updates balances every 60 seconds since the bitcoin blockchain doesn't update very quickly.
