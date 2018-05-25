@@ -1,4 +1,4 @@
-# BTCexporter  [![Docker Build Status](https://img.shields.io/docker/build/jrottenberg/ffmpeg.svg)](https://hub.docker.com/r/hunterlong/btcexporter/)
+# BTCexporter  [![Docker Build Status](https://img.shields.io/docker/build/hunterlong/btcexporter.svg)](https://hub.docker.com/r/hunterlong/btcexporter/)
 
 A lightweight Prometheus exporter that will output Bitcoin Balances from a list of addresses you specify. BTCexporter uses blockchain.info to fetch bitcoin balances. If you also wanting a Ethereum prometheus exporter, you can use [ETHexporter](https://github.com/hunterlong/btcexporter) which uses a geth server. You might also want to chart your ERC20 token balances for the Ethereum blockchain, checkout out [TOKENexporter](https://github.com/hunterlong/tokenexporter).
 
