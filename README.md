@@ -8,6 +8,14 @@ example2:1Kr6QSydW9bFQG1mXiPNNu6WpJGmUa9i1g
 example3:17A16QmavnUfCW11DAApiJxp7ARnxN5pGX
 ```
 
+## Running the Exporter
+You can easily run this Bitcoin balance prometheus exporter with the docker command:
+```
+docker run -it -d -p 9019:9019 \
+  -v /myfolder/addresses.txt:/app/addresses.txt \ 
+  hunterlong/btcexporter
+```
+
 ## Build Docker Image
 Clone this repo and then follow the simple steps below!
 
