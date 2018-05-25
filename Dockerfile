@@ -10,4 +10,6 @@ RUN mkdir /app
 WORKDIR /app
 ADD addresses.txt /app
 
+EXPOSE 9019
+
 ENTRYPOINT /go/bin/btcexporter
