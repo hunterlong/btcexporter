@@ -15,6 +15,9 @@ var (
 	allWatching []*Watching
 	port        string
 	updates     string
+	prefix      string
+	loadSeconds float64
+	totalLoaded int64
 )
 
 type Watching struct {
@@ -48,9 +51,20 @@ func GetBTCBalance(address string) *big.Float {
 // HTTP response handler for /metrics
 func MetricsHttp(w http.ResponseWriter, r *http.Request) {
 	var allOut []string
+	total := big.NewFloat(0)
 	for _, v := range allWatching {
-		allOut = append(allOut, fmt.Sprintf("btc_balance{name=\"%v\",address=\"%v\"} %v", v.Name, v.Address, v.Balance))
+		if v.Balance == "" {
+			v.Balance = "0"
+		}
+		bal := big.NewFloat(0)
+		bal.SetString(v.Balance)
+		total.Add(total, bal)
+		allOut = append(allOut, fmt.Sprintf("%vbtc_balance{name=\"%v\",address=\"%v\"} %v", prefix, v.Name, v.Address, v.Balance))
 	}
+	allOut = append(allOut, fmt.Sprintf("%vbtc_balance_total %0.8f", prefix, total))
+	allOut = append(allOut, fmt.Sprintf("%vbtc_load_seconds %0.2f", prefix, loadSeconds))
+	allOut = append(allOut, fmt.Sprintf("%vbtc_loaded_addresses %v", prefix, totalLoaded))
+	allOut = append(allOut, fmt.Sprintf("%vbtc_total_addresses %v", prefix, len(allWatching)))
 	fmt.Fprintln(w, strings.Join(allOut, "\n"))
 }
 
@@ -76,17 +90,27 @@ func OpenAddresses(filename string) error {
 
 func main() {
 	port = os.Getenv("PORT")
+	prefix = os.Getenv("PREFIX")
 	err := OpenAddresses("addresses.txt")
 	if err != nil {
 		panic(err)
 	}
 
+	fmt.Printf("BTC Exporter started on port %v, http://0.0.0.0:%v/metrics\n", port, port)
+
 	// check address balances
 	go func() {
 		for {
+			totalLoaded = 0
+			t1 := time.Now()
+			fmt.Printf("Scanning %v addresses\n", len(allWatching))
 			for _, v := range allWatching {
 				v.Balance = GetBTCBalance(v.Address).String()
+				totalLoaded++
 			}
+			t2 := time.Now()
+			loadSeconds = t2.Sub(t1).Seconds()
+			fmt.Printf("Completed Scanning %v addresses in %v seconds, sleeping for 60 seconds\n", len(allWatching), loadSeconds)
 			time.Sleep(60 * time.Second)
 		}
 	}()
